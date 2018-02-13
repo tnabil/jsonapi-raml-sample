@@ -1,0 +1,132 @@
+#%RAML 1.0 ResourceType
+
+uses:
+  bt: ../schemas/baseTypes.raml
+
+description: Entity representing a <<resourcePathName|!singularize>>
+get:
+  description: |
+    Get the <<resourcePathName|!singularize>> with
+    <<resourcePathName|!singularize>>Id = {<<resourcePathName|!singularize>>Id}
+  responses:
+    200:
+      headers:
+        ETag:
+          description: Identifies the version of the returned entity
+      body:
+        application/json:
+          type: <<getResponseType>>
+          example: <<getResponseExample>>
+    404:
+      description: Not found
+      body:
+        application/json:
+          type: bt.Error
+          example: !include ../examples/error.raml
+put?:
+  headers:
+    If-Match:
+      description: |
+        Causes the PUT request to be processed only if the ETag of
+        the resource matches the value of the header.
+      required: false
+      type: string
+      example: "4568"
+  body:
+    application/json:
+      type: <<putRequestType>>
+      example: <<putRequestExample>>
+  responses:
+    204:
+      description: Modified
+    400:
+      description: Bad request
+      body:
+        application/json:
+          type: bt.Error
+          example: !include ../examples/error.raml
+    404:
+      description: Not found
+      body:
+        application/json:
+          type: bt.Error
+          example: !include ../examples/error.raml
+    412:
+      description: Precondition Failed
+      body:
+        application/json:
+          type: bt.Error
+          example: !include ../examples/error.raml
+    500:
+      description: Internal server error
+      body:
+        application/json:
+          type: bt.Error
+          example: !include ../examples/error.raml
+patch?:
+  description: |
+    Modify part of the <<resourcePathName|!singularize>>
+  headers:
+    If-Match:
+      description: |
+        Causes the PUT request to be processed only if the ETag of
+        the resource matches the value of the header.
+      required: false
+      type: string
+      example: "4568"
+  body:
+    application/json:
+      type: bt.JsonPatchRequest
+      example: <<patchRequestExample>>
+  responses:
+    204:
+      description: Modified
+    400:
+      description: Bad request
+      body:
+        application/json:
+          type: bt.Error
+          example: !include ../examples/error.raml
+    404:
+      description: Not found
+      body:
+        application/json:
+          type: bt.Error
+          example: !include ../examples/error.raml
+    412:
+      description: Precondition Failed
+      body:
+        application/json:
+          type: bt.Error
+          example: !include ../examples/error.raml
+    500:
+      description: Internal server error
+      body:
+        application/json:
+          type: bt.Error
+          example: !include ../examples/error.raml
+delete?:
+  description: |
+    Deletes the <<resourcePathName|!singularize>> with
+    <<resourcePathName|!singularize>>Id = {<<resourcePathName|!singularize>>Id}
+  responses:
+    204:
+      description: Deleted
+    400:
+      description: Bad request
+      body:
+        application/json:
+          type: bt.Error
+          example: !include ../examples/error.raml
+    404:
+      description: Not found
+      body:
+        application/json:
+          type: bt.Error
+          example: !include ../examples/error.raml
+    500:
+      description: Internal server error
+      body:
+        application/json:
+          type: bt.Error
+          example: !include ../examples/error.raml
