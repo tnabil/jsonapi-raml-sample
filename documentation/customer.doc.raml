@@ -8,13 +8,13 @@ content: |
 
   Searching is done against the customers collection by specifying a list of
   search terms, some examples are:
-  - firstName=John
-  - firstName=J*,lastName=Doe
+  - filter[customer.firstName]=John
+  - filter[customer.firstName]=J*&filter[customer.lastName]=Doe
 
   **Pagination**
 
   When listing or searching for customers, the results are paginated. The number
-  of returned items can be controlled using the "pageSize" query parameter.
+  of returned items can be controlled using the "page[size]" query parameter.
 
   **Syncing**
 

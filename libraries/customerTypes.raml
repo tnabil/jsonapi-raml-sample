@@ -1,0 +1,83 @@
+#%RAML 1.0 Library
+usage: Types for customer resources
+
+uses:
+  api: jsonApiLibrary.raml
+
+types:
+  address:
+    description: a address response
+    type: address_post
+    properties: 
+      id:
+        required: true
+  address_post:
+    description: a POSTable address
+    type: address_patch
+    properties: 
+      attributes?:
+        properties: 
+          line1:
+            required: true
+          line2:
+            required: false
+          postCode:
+            required: true
+            type: number
+          city:
+            required: true
+          state:
+            required: true
+  address_patch:
+    description: a PATCHable address
+    type: api.resource_post
+    properties:
+      attributes?:
+        properties: 
+          line1:
+            required: false
+          line2:
+            required: false
+          postCode:
+            required: false
+            type: number
+          city:
+            required: false
+          state:
+            required: false
+  customer:
+    description: a customer response
+    type: customer_post
+    properties: 
+      id:
+        required: true
+  customer_post:
+    description: a POSTable customer
+    type: customer_patch
+    properties:
+      id:
+        required: false
+      attributes?:
+        properties: 
+          firstName:
+          lastName:
+          phone:
+      relationships?:
+        type: customer_rels
+  customer_patch:
+    description: a PATCHable customer
+    type: api.resource_post
+    properties:
+      attributes?:
+        properties: 
+          firstName?:
+          lastName?:
+          phone?:
+      relationships?:
+        type: customer_rels
+  customer_rels:
+    type: api.relationships
+    properties: 
+      addresses?:
+        type: api.relationshipMember[]
+      

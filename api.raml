@@ -5,71 +5,54 @@ title: Example API illustrating RAML best practices
 version: v1
 baseUri: http://api.example.com/{version}
 
-mediaType: application/json
+mediaType: application/vnd.api+json
 protocols: HTTPS
 securedBy: basicAuth
 documentation:
   - !include documentation/customer.doc.raml
   
 uses:
-  resType: resourceTypes/resourceTypes.lib.raml
-  cusType: schemas/customerTypes.raml
-  tr: traits/traits.lib.raml
+  api: libraries/jsonApiLibrary.raml
+  col: libraries/jsonApiCollections.raml
+  cus: libraries/customerTypes.raml
+  tr: libraries/customTraits.raml
 
 /customers:
   type:
-    {
-      resType.collection: {
-        getResponseType: cusType.GetCustomersResponse,
-        postRequestType: cusType.PostCustomerRequest,
-        getResponseExample: !include examples/getCustomersResponse.json,
-        postRequestExample: !include examples/postCustomerRequest.json
-      }
-    }
+    col.collection:
+      dataType: cus.customer
+      exampleCollection: !include examples/CustomerCollection.json
+      exampleItem: !include examples/CustomerItem.json
   get:
-    is: [ tr.pageable, tr.searchable, tr.sortable, tr.syncable, tr.expandable ]
+    is: [ col.pageable, col.filterable, col.sortable, tr.syncable, col.includable ]
   post:
+
   /{customerId}:
     type:
-      {
-        resType.member: {
-          getResponseType: cusType.GetCustomerResponse,
-          putRequestType : cusType.PutCustomerRequest,
-          getResponseExample: !include examples/getCustomerResponse.json,
-          putRequestExample: !include examples/putCustomerRequest.json,
-          patchRequestExample: !include examples/patchCustomerRequest.raml
-        }
-      }
+      col.item:
+        dataType: cus.customer
+        exampleItem: !include examples/CustomerItem.json
     get:
-      is: [tr.cacheable, tr.expandable]
+      is: [col.sparse, col.includable]
     put:
     patch:
     delete:
+
     /addresses:
       type:
-        {
-          resType.collection: {
-            getResponseType: cusType.GetAddressesResponse,
-            postRequestType: cusType.PostAddressRequest,
-            getResponseExample: !include examples/getAddressesResponse.json,
-            postRequestExample: !include examples/postAddressRequest.json
-          }
-        }
+        col.collection:
+          dataType: cus.address
+          exampleCollection: !include examples/AddressCollection.json
+          exampleItem: !include examples/AddressItem.json
       get:
-        is: [ tr.sortable ]
+        is: [ col.sortable ]
       post:
         description: Adds a new address to the customer
       /{addressId}:
         type:
-          {
-            resType.member: {
-              getResponseType: cusType.GetAddressResponse,
-              putRequestType : cusType.PutAddressRequest,
-              getResponseExample: !include examples/getAddressResponse.json,
-              putRequestExample: !include examples/putAddressRequest.json,
-              patchRequestExample: !include examples/patchAddressRequest.raml
-            }
-          }
+          col.item:
+            dataType: cus.address
+            exampleItem: !include examples/AddressItem.json
         get:
           is: [ tr.cacheable ]
         put:
