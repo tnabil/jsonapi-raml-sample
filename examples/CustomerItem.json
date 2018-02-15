@@ -8,17 +8,15 @@
       "phone": "0434444678"
     },
     "relationships": {
-      "addresses": [{
-        "data": {
+      "addresses": {
+        "data": [{
           "type": "addresses",
           "id": "286100e3-0e2b-4404-a716-66104d440770"
-        }
-      }, {
-        "data": {
+        }, {
           "type": "addresses",
           "id": "286100e3-0e2b-4404-a716-661041234567"
-        }
-      }]
+        }]
+      }
     }
   },
   "included": [{
